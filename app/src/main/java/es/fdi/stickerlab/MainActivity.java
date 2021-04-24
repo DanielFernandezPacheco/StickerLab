@@ -1,10 +1,15 @@
 package es.fdi.stickerlab;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -13,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         String type = intent.getType();
         img = (ImageView) findViewById(R.id.image);
         info = (TextView) findViewById(R.id.info);
+
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("image/webp")) {// con image/webp solo recibe stickers
                 handleSendImage(intent); // Handle single image being sent
@@ -39,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d("RECIBIDO", "otro");
         }
 
+        Context context = getApplicationContext();
+        Log.d("depurar", context.getFilesDir().toString());
     }
 
     void handleSendImage(Intent intent) {
@@ -48,9 +58,14 @@ public class MainActivity extends AppCompatActivity {
             Log.d("RECIBIDO", "imagen");
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-
+                /*
+                FileOutputStream out = new FileOutputStream("sticker");
+                bitmap.compress(Bitmap.CompressFormat.WEBP, 100, out); // bmp is your Bitmap instance
                 img.setImageBitmap(bitmap);
-                info.setVisibility(View.GONE);
+                info.setVisibility(View.GONE);*/
+                new ReceivedStickerDialog(this, bitmap);
+                } catch (FileNotFoundException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

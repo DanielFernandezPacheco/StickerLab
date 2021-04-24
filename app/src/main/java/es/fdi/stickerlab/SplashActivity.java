@@ -15,6 +15,7 @@ public class SplashActivity extends AppCompatActivity {
 
         final Intent i = new Intent(this, MainActivity.class);
 
+        // se muestra durante 2s Splash Activity y luego inicia MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
