@@ -3,23 +3,30 @@ package es.fdi.stickerlab;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import java.util.zip.Inflater;
+
 public class ReceivedStickerDialog extends AlertDialog.Builder {
 
 
     public ReceivedStickerDialog(@NonNull Context context, Bitmap bitmap) {
         super(context);
-        ImageView sticker = new ImageView(context);
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.received_dialog, null);
+
+        ImageView sticker = view.findViewById(R.id.stickerDialogImg);
         sticker.setImageBitmap(bitmap);
 
         this.setTitle("Nuevo Sticker");
-        this.setView(sticker);
-
+        this.setView(view);
 
         this.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -33,23 +40,3 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
         this.show();
     }
 }
-
-
-/*
-        new AlertDialog.Builder(this)
-                .setTitle("Delete entry")
-                .setMessage("Are you sure you want to delete this entry?")
-
-                // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-public void onClick(DialogInterface dialog, int which) {
-        // Continue with delete operation
-        }
-        })
-
-        // A null listener allows the button to dismiss the dialog and take no further action.
-        .setNegativeButton(android.R.string.no, null)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .show();
-*/

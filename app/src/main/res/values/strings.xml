@@ -3,4 +3,6 @@
     <string name="ImagenRecibida">ImagenRecibida</string>
     <string name="imgInfo">Comparte un sticker desde Whatsapp a StickerLab para poder almacenarlo</string>
     <string name="save">Guardar</string>
+    <string name="tag">Etiqueta</string>
+    <string name="category">Categoría</string>
 </resources>

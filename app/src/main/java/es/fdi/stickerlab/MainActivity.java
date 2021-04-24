@@ -1,30 +1,25 @@
 package es.fdi.stickerlab;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    private Intent requestFileIntent;
-    private ParcelFileDescriptor inputPFD;
     private ImageView img;
     private TextView info;
 
@@ -36,12 +31,27 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-        img = (ImageView) findViewById(R.id.image);
-        info = (TextView) findViewById(R.id.info);
+        img = findViewById(R.id.image);
+        info = findViewById(R.id.info);
+
+        final FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Implementar cuadro de búsqueda de stickers", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                fab.setVisibility(0);
+            }
+        });
+
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("image/webp")) {// con image/webp solo recibe stickers
-                handleSendImage(intent); // Handle single image being sent
+                try {
+                    handleSendImage(intent); // Handle single image being sent
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             Log.d("RECIBIDO", "otro");
@@ -51,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("depurar", context.getFilesDir().toString());
     }
 
-    void handleSendImage(Intent intent) {
-        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+    void handleSendImage(Intent intent) throws IOException {
+        Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             //img.setImageResource(R.drawable.intent.);
             Log.d("RECIBIDO", "imagen");
@@ -64,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 img.setImageBitmap(bitmap);
                 info.setVisibility(View.GONE);*/
                 new ReceivedStickerDialog(this, bitmap);
-                } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
