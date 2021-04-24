@@ -1,3 +1,3 @@
 # StickerLab
 Fecha de entrega: 20 de mayo
-(https://raw.githubusercontent.com/DanielFernandezPacheco/StickerLab/main/app/src/main/ic_launcher-playstore.png)
+![alt text](https://github.com/DanielFernandezPacheco/StickerLab/blob/main/app/src/main/ic_launcher-playstore.png)
