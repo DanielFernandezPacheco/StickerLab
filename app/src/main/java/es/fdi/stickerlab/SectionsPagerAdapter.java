@@ -8,33 +8,26 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import es.fdi.stickerlab.CategoriesFragment;
-import es.fdi.stickerlab.MakerFragment;
-import es.fdi.stickerlab.R;
+import java.util.ArrayList;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.stickers, R.string.maker};
     private final Context mContext;
-    private Fragment categoriesFragment, makerFragment;
+    private ArrayList<Fragment> fragments;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
-        categoriesFragment = new CategoriesFragment();
-        makerFragment = new MakerFragment();
+       this.fragments = new ArrayList<Fragment>();
+       fragments.add(new CategoriesFragment());
+        fragments.add(new MakerFragment());
     }
 
     @Override
     public Fragment getItem(int position) {
-        if(position == 0)
-            return categoriesFragment;
-        return makerFragment;
+        return fragments.get(position);
     }
 
     @Nullable

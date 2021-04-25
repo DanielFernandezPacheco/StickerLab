@@ -11,10 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import java.util.zip.Inflater;
-
 public class ReceivedStickerDialog extends AlertDialog.Builder {
-
 
     public ReceivedStickerDialog(@NonNull Context context, Bitmap bitmap) {
         super(context);
