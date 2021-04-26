@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        final ImageView titleImage = findViewById(R.id.logoImageTitle);
+        final TextView titleText = findViewById(R.id.titleText);
         // Listener para cuando hay un cambio en las pestañas
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -62,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if(position==1){
+                    titleImage.setVisibility(View.VISIBLE);
+                    titleText.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.INVISIBLE);
                     searchView.setVisibility(View.INVISIBLE);
                 }else{
+                    searchView.setIconified(true);
                     fab.setVisibility(View.VISIBLE);
                     searchView.setVisibility(View.VISIBLE);
                 }
@@ -76,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 appBar.setExpanded(true);
             }
         });
-
-
-
-        final ImageView titleImage = findViewById(R.id.logoImageTitle);
-        final TextView titleText = findViewById(R.id.titleText);
 
 
         searchView = findViewById(R.id.searchView);
