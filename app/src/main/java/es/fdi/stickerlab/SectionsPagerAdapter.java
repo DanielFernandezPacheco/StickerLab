@@ -1,6 +1,8 @@
 package es.fdi.stickerlab;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -20,14 +22,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
-       this.fragments = new ArrayList<Fragment>();
-       fragments.add(new CategoriesFragment());
+        this.fragments = new ArrayList<Fragment>();
+        fragments.add(new CategoriesFragment());
         fragments.add(new MakerFragment());
     }
 
     @Override
-    public Fragment getItem(int position) {
-        return fragments.get(position);
+    public Fragment getItem(int position) {return fragments.get(position);
     }
 
     @Nullable
