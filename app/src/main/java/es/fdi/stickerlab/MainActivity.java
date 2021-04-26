@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -37,8 +38,31 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(v, "implementar cuadro de búsqueda de stickers", 2000).show();
             }
         });
-        // Get intent, action and MIME type
+
+        final AppBarLayout appBar = findViewById(R.id.appbar);
+        //expande appBar cuando se cambia de pestaña
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                appBar.setExpanded(true);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                appBar.setExpanded(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                appBar.setExpanded(true);
+            }
+        });
+
         Intent intent = getIntent();
+        receiveStickerIntent(intent);
+    }
+
+    private void receiveStickerIntent(Intent intent){
         String action = intent.getAction();
         String type = intent.getType();
         if (Intent.ACTION_SEND.equals(action) && type != null) {
@@ -52,13 +76,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("RECIBIDO", "otro");
         }
-
-        Log.d("depurar", getApplicationContext().getFilesDir().toString());
     }
 
-    void handleReceivedSticker(Intent intent) throws IOException {
-
-
+    private void handleReceivedSticker(Intent intent) throws IOException {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             Log.d("RECIBIDO", "imagen");
