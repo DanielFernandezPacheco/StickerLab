@@ -46,9 +46,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl" />
+
         </androidx.appcompat.widget.Toolbar>
-
-
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -59,6 +58,7 @@
             app:tabIndicatorGravity="bottom"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed">
+
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/stickersTab"
@@ -73,13 +73,18 @@
                 android:text="@string/maker" />
         </com.google.android.material.tabs.TabLayout>
 
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
