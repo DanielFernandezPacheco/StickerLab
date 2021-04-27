@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 public class ReceivedStickerDialog extends AlertDialog.Builder {
 
     public ReceivedStickerDialog(@NonNull Context context, Bitmap bitmap) {
-        super(context);
+        super(context, R.style.RoundedCornersDialog);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.received_dialog, null);
@@ -23,6 +23,7 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
         sticker.setImageBitmap(bitmap);
 
         this.setTitle("Nuevo Sticker");
+
         this.setView(view);
 
         this.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
