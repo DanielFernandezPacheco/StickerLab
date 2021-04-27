@@ -20,6 +20,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         this.categories = categories;
     }
 
+    // llamar para actualizar la lista cuando se añadan categorías
     public void setCategories(ArrayList<String> categories) {
         this.categories = categories;
     }

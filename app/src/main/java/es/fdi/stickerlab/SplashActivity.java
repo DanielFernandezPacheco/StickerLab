@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         final Intent i = new Intent(this, MainActivity.class);
 
         // se muestra durante 2s Splash Activity y luego inicia MainActivity
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(i);

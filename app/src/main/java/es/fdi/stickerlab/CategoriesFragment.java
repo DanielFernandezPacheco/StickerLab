@@ -41,6 +41,7 @@ public class CategoriesFragment extends Fragment {
 
         this.noStickerInfo = view.findViewById(R.id.noStickerTextView);
 
+        // si no hay categorias añadidas muestra mensaje, se podría cambiar por un gif
         if (categories.size() == 0)
             this.noStickerInfo.setVisibility(View.VISIBLE);
         else this.noStickerInfo.setVisibility(View.INVISIBLE);

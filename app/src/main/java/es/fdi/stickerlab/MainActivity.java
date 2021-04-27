@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView titleImage = findViewById(R.id.logoImageTitle);
         final TextView titleText = findViewById(R.id.titleText);
+
         // Listener para cuando hay un cambio en las pestañas
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -62,16 +63,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                // cuando se selecciona la pestaña maker
                 if(position==1){
                     titleImage.setVisibility(View.VISIBLE);
                     titleText.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.INVISIBLE);
                     searchView.setVisibility(View.INVISIBLE);
-                }else{
+                }
+                // cuando se selecciona la pestaña stickers (position == 0)
+                else{
                     searchView.setIconified(true);
                     fab.setVisibility(View.VISIBLE);
                     searchView.setVisibility(View.VISIBLE);
                 }
+
                 appBar.setExpanded(true);
             }
 
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         searchView = findViewById(R.id.searchView);
+
         // Listener para cuando se pulsa el SearchView
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -102,14 +108,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         Intent intent = getIntent();
         receiveStickerIntent(intent);
     }
 
     @Override
-    public void onBackPressed() {// cierra el SearchView al pulsar botón de atrás
+    // cierra el SearchView al pulsar botón de atrás
+    public void onBackPressed(){
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
         } else {
@@ -117,14 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-
-        return true;
-    }
-
+    // si recibe un intent con una imagen WebP lo captura y lo manda a handleReceivedSticker
     private void receiveStickerIntent(Intent intent){
         String action = intent.getAction();
         String type = intent.getType();
@@ -141,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // trata el contenido de la imagen recibida y la manda a ReceivedStickerDialog para mostrarla
     private void handleReceivedSticker(Intent intent) throws IOException {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {

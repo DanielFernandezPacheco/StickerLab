@@ -1,8 +1,6 @@
 package es.fdi.stickerlab;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -28,7 +26,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {return fragments.get(position);
+    public Fragment getItem(int position) {
+        return fragments.get(position);
     }
 
     @Nullable
@@ -39,6 +38,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return fragments.size();
     }
 }
