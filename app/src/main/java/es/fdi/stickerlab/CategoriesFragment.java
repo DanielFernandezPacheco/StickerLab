@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class CategoriesFragment extends Fragment {
     public static final int NUM_CATEGORIES_TEST = 20;
-    private ArrayList<String> categories;
+    private static ArrayList<String> categories;
     private RecyclerView recyclerView;
     private CategoryListAdapter categoryListAdapter;
     private TextView noStickerInfo;
@@ -49,5 +49,9 @@ public class CategoriesFragment extends Fragment {
         categoryListAdapter = new CategoryListAdapter(view.getContext(), categories);
         recyclerView.setAdapter(categoryListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    }
+
+    public static ArrayList<String> getCategories() {
+        return categories;
     }
 }

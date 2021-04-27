@@ -25,15 +25,18 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     SearchView searchView;
+    SectionsPagerAdapter sectionsPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         final TabLayout tabs = findViewById(R.id.tabs);
@@ -146,7 +149,12 @@ public class MainActivity extends AppCompatActivity {
             Log.d("RECIBIDO", "imagen");
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                new ReceivedStickerDialog(this, bitmap);
+
+                // cambiar y coger directamente de la bbdd para que no de problemas de null pointer, que los da jaja
+                ArrayList<String> categories = CategoriesFragment.getCategories();
+
+
+                new ReceivedStickerDialog(this, bitmap, categories);
 
 
             } catch (FileNotFoundException e) {

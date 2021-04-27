@@ -51,4 +51,5 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             category = itemView.findViewById(R.id.categoryCardTitle);
         }
     }
+
 }
