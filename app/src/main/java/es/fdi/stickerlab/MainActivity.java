@@ -1,8 +1,12 @@
 package es.fdi.stickerlab;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.room.Room;
 import androidx.viewpager.widget.ViewPager;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -27,7 +32,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.fdi.stickerlab.DAO.AppDatabase;
+import es.fdi.stickerlab.Model.Category;
+
 public class MainActivity extends AppCompatActivity {
+    public static AppDatabase db;
     SearchView searchView;
     SectionsPagerAdapter sectionsPagerAdapter;
 
@@ -48,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Implementar añadir categoría", 2000).show();
+                new addCategoryDialog(MainActivity.this);
+
+                /*Category category;
+
+                db.categoryDAO().insertCategoty(Category);*/
             }
         });
 
@@ -168,4 +181,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }
