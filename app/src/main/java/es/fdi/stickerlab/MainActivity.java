@@ -113,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         receiveStickerIntent(intent);
+
+        // para que receiveStickerIntent no lo trate más, así se evita que al girar la pantalla
+        // vuelva a aparecer el Dialog aún habiéndolo cerrado
+        intent.setType(null);
     }
 
     @Override
@@ -155,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 new ReceivedStickerDialog(this, bitmap, categories);
+
+
 
 
             } catch (FileNotFoundException e) {
