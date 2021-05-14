@@ -15,6 +15,7 @@ public interface CategoryDAO {
     List<Category> getAll();
 
 
+
     @Query("SELECT * FROM categories WHERE category_name LIKE :name")
     Category findByName(String name);
 

@@ -56,6 +56,7 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
             public void onClick(DialogInterface dialog, int which) {
                 // Almacenar sticker
                 Toast.makeText(getContext(), "Falta por implementar función de guardar", Toast.LENGTH_LONG).show();
+
             }
         });
         this.setNegativeButton(android.R.string.no, null);
