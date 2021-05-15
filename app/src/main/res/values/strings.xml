@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">StickerLab</string>
+    <string name="ImagenRecibida">ImagenRecibida</string>
+    <string name="noStickerInfo">Comparte un sticker desde Whatsapp a StickerLab para poder almacenarlo</string>
+    <string name="save">Guardar</string>
+    <string name="tag">Nombre</string>
+    <string name="category">Categoría</string>
+    <string name="maker">Maker</string>
+    <string name="stickers">Stickers</string>
+</resources>
