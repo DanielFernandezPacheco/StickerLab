@@ -11,7 +11,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = Sticker.TABLE_NAME)
 public class Sticker {
     public static final String TABLE_NAME = "stickers";
-    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_NOMBRE = "nombre";
+    public static final String COLUMN_CATEGORIA = "categoria";
 
     public static final String COLUMN_ID = BaseColumns._ID;
 

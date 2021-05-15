@@ -1,31 +1,21 @@
 package es.fdi.stickerlab;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.room.Room;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.FileNotFoundException;
@@ -33,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import es.fdi.stickerlab.DAO.AppDatabase;
-import es.fdi.stickerlab.Model.Category;
 
 public class MainActivity extends AppCompatActivity {
     public static AppDatabase db;

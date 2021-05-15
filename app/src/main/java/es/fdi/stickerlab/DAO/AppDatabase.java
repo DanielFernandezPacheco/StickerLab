@@ -8,27 +8,27 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import es.fdi.stickerlab.DAO.CategoryDAO;
-import es.fdi.stickerlab.Model.Category;
 import es.fdi.stickerlab.Model.Sticker;
 
 
-@Database(entities = {Category.class, Sticker.class}, version = 1)
+@Database(entities = {Sticker.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract CategoryDAO categoryDAO();  //Permisos
 
+    //Singleton para tener la DAO y evitar que se abran varias instancias
     public abstract StickerDAO stickerDAO();
 
     private static volatile AppDatabase INSTANCE;    //Variable para acceder a la BD
 
     private static final int NUMBER_OF_THREADS = 4;
+
+    //Grupo de subprocesos para ejecutar las operaciones de la BD de forma asíncrona en segundo plano
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    //Devuelve el singleton para evitar crear varias instancias
     public static AppDatabase getDatabase(final Context context){
         if(INSTANCE == null){
             synchronized (AppDatabase.class){

@@ -3,6 +3,7 @@ package es.fdi.stickerlab.DAO;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -22,21 +23,38 @@ public interface StickerDAO {
     @Query("SELECT * FROM " + Sticker.TABLE_NAME)
     LiveData<List<Sticker>> getAllStickers();
 
+
+    //Obtener todos los stickers de una categoria
+    @Query("SELECT * FROM " + Sticker.TABLE_NAME + " WHERE " + Sticker.COLUMN_CATEGORIA + " = :categoria")
+    List<Sticker> getStickerByCategory(String categoria);
+
+
+    //Obtener un sticker por nombre
+    @Query("SELECT * FROM " + Sticker.TABLE_NAME + " WHERE " + Sticker.COLUMN_NOMBRE + " = :nombre")
+    List<Sticker> getStickerByName(String nombre);
+
+
+    // Permitimos la inserción múltiple evitando conflicto
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insert(Sticker sticker);
+
+
+    /*
     //Insertar un nuevo sticker
     @Insert
     void insertAll(Sticker ... stickers);
+    */
 
     //Eliminar un sticker
     @Query("DELETE FROM " + Sticker.TABLE_NAME + " WHERE " + Sticker.COLUMN_ID + " = :id")
-    int deleteById(long id);
+    int deleteStickerById(long id);
 
-    //Actualizar
+
+    //Eliminar todos los Stickers
+    @Query("DELETE FROM " + Sticker.TABLE_NAME)
+    void deleteAll();
+
+    //Actualizar -> En verdad con el Live data no hace falta
     @Update
     int updateStickers(Sticker obj);
-
-    //Otra forma de insertar
-    @Insert
-    long insert(Sticker stickers);
-
-
 }
