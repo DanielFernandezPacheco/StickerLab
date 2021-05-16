@@ -1,12 +1,15 @@
 package es.fdi.stickerlab;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -15,16 +18,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReceivedStickerDialog extends AlertDialog.Builder {
     public static final String NO_CATEGORY = "Sin categoría";
     View view;
+    Bitmap imagen;
+    String nombre, categoria;
 
     public ReceivedStickerDialog(@NonNull Context context, Bitmap bitmap, ArrayList<String> categories) {
         super(context, R.style.RoundedCornersDialog);
-
-        this.createView(context, bitmap);
+        imagen = bitmap;
+        this.createView(context, imagen);
         this.buttonsActions();
         this.spinnerActions(categories);
 
@@ -54,14 +63,16 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
         // Acción del botón guardar
         this.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // Almacenar sticker
-                Toast.makeText(getContext(), "Falta por implementar función de guardar", Toast.LENGTH_LONG).show();
+                SaveStickerMemory saveStickerMemory = new SaveStickerMemory();
+                EditText nameText = view.findViewById(R.id.newCategoryName);
+                nombre = nameText.getText().toString().equals("")? "noNamedSticker" : nameText.getText().toString();
+                saveStickerMemory.SaveImage(getContext(), imagen, nombre, categoria);
             }
         });
         this.setNegativeButton(android.R.string.no, null);
     }
 
-    private  void spinnerActions(ArrayList<String> categories){
+    private  void spinnerActions(final ArrayList<String> categories){
         Spinner spinner = view.findViewById(R.id.spinnerCategory);
 
         categories.add(0, NO_CATEGORY);
@@ -72,7 +83,7 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //guardar categoria
+                categoria = categories.get(position);
             }
 
             @Override

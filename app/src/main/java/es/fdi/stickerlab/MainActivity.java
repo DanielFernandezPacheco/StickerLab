@@ -170,11 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 // cambiar y coger directamente de la bbdd para que no de problemas de null pointer, que los da jaja
                 ArrayList<String> categories = CategoriesFragment.getCategories();
 
-
                 new ReceivedStickerDialog(this, bitmap, categories);
-
-
-
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
