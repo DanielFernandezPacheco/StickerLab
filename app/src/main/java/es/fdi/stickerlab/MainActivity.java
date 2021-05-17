@@ -22,10 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import es.fdi.stickerlab.DAO.AppDatabase;
-
 public class MainActivity extends AppCompatActivity {
-    public static AppDatabase db;
+    //public static AppDatabase db;
     SearchView searchView;
     SectionsPagerAdapter sectionsPagerAdapter;
 
@@ -159,11 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 // cambiar y coger directamente de la bbdd para que no de problemas de null pointer, que los da jaja
                 ArrayList<String> categories = CategoriesFragment.getCategories();
 
-
                 new ReceivedStickerDialog(this, bitmap, categories);
-
-
-
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

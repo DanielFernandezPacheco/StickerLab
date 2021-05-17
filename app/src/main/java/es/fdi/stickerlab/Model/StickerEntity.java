@@ -2,14 +2,12 @@ package es.fdi.stickerlab.Model;
 
 import android.provider.BaseColumns;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
-@Entity(tableName = Sticker.TABLE_NAME)
-public class Sticker {
+@Entity(tableName = StickerEntity.TABLE_NAME)
+public class StickerEntity {
     public static final String TABLE_NAME = "stickers";
     public static final String COLUMN_NOMBRE = "nombre";
     public static final String COLUMN_CATEGORIA = "categoria";
@@ -29,7 +27,7 @@ public class Sticker {
     @ColumnInfo(name = "ruta")
     private String ruta;
 
-    public Sticker(long id, String nombre, String categoria, String ruta) {
+    public StickerEntity(long id, String nombre, String categoria, String ruta) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -67,6 +65,4 @@ public class Sticker {
     public void setRuta(String ruta) {
         this.ruta = ruta;
     }
-
-
 }

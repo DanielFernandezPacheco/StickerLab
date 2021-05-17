@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import es.fdi.stickerlab.Model.Sticker;
+import es.fdi.stickerlab.Model.StickerEntity;
 
 public class StickerViewModel extends AndroidViewModel {
 
@@ -15,7 +15,7 @@ public class StickerViewModel extends AndroidViewModel {
     private StickerRepository myRepository;
 
     //Devuelve la lista de palabras almacenada en caché
-    private final LiveData<List<Sticker>> myAllSticker;
+    private final LiveData<List<StickerEntity>> myAllSticker;
 
     //Constructor que inicializa con LiveData myAllSticker usando el repositorio
     public StickerViewModel (Application application){
@@ -24,8 +24,9 @@ public class StickerViewModel extends AndroidViewModel {
         myAllSticker = myRepository.getAll();
     }
 
-    LiveData<List<Sticker>> getAll() { return myAllSticker; }
+    LiveData<List<StickerEntity>> getAll() { return myAllSticker; }
 
     //Método insert que llama al insert() del repositorio y se encapsula así el insert desde la UI
-    public void insert(Sticker sticker){ myRepository.insert(sticker);}
+    public void insert(StickerEntity sticker){ myRepository.insert(sticker);}
 }
+

@@ -11,10 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import es.fdi.stickerlab.Model.Sticker;
+import es.fdi.stickerlab.Model.StickerEntity;
 
-
-@Database(entities = {Sticker.class}, version = 1)
+@Database(entities = {StickerEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     //Singleton para tener la DAO y evitar que se abran varias instancias
