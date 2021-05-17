@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 
 import es.fdi.stickerlab.Model.StickerEntity;
 
-@Database(entities = {StickerEntity.class}, version = 1)
+@Database(entities = {StickerEntity.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     //Singleton para tener la DAO y evitar que se abran varias instancias
@@ -46,13 +46,13 @@ public abstract class AppDatabase extends RoomDatabase {
             super.onCreate(db);
 
             //Para guardar los datos en el restart, deberemos comentar el siguiente bloque
-            /*
+
             databaseWriteExecutor.execute(() -> {
                 StickerDAO dao = INSTANCE.stickerDAO();
 
-                Sticker sticker = new Sticker(1,"sticker","1","C:/");
+                StickerEntity sticker = new StickerEntity(1,"sticker","1","C:/");
                 dao.insert(sticker);
-            });*/
+            });
         }
     };
 

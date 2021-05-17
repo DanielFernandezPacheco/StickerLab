@@ -3,6 +3,7 @@ package es.fdi.stickerlab;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class ReceivedStickerDialog extends AlertDialog.Builder {
     public static final String NO_CATEGORY = "Sin categoría";

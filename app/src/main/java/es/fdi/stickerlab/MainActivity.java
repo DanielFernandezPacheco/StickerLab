@@ -1,6 +1,7 @@
 package es.fdi.stickerlab;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -26,12 +27,28 @@ public class MainActivity extends AppCompatActivity {
     //public static AppDatabase db;
     SearchView searchView;
     SectionsPagerAdapter sectionsPagerAdapter;
+    private StickerViewModel myStickerViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        /*------------------------INSTANCIACIÓN DE LA BASE DE DATOS---------------------*/
+        //Creamos un ViewModel con el Provider, para la Base de datos
+        myStickerViewModel = new ViewModelProvider(this).get(StickerViewModel.class);
+
+        //Añadimos un observador de LiveData
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        myStickerViewModel.getAll().observe(this, words -> {
+            // Update the cached copy of the words in the adapter.
+            //adapter.submitList(words);
+        });
+
+        /*------------------------------------------------------------------------------*/
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -96,8 +113,10 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 titleImage.setVisibility(View.GONE);
                 titleText.setVisibility(View.GONE);
+
             }
         });
 
