@@ -25,7 +25,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.fdi.stickerlab.Model.StickerEntity;
+
 import static androidx.core.content.ContextCompat.startActivity;
+import static es.fdi.stickerlab.MainActivity.myStickerViewModel;
 
 public class ReceivedStickerDialog extends AlertDialog.Builder {
     public static final String NO_CATEGORY = "Sin categoría";
@@ -70,6 +73,7 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
                 EditText nameText = view.findViewById(R.id.newCategoryName);
                 nombre = nameText.getText().toString().equals("")? "noNamedSticker" : nameText.getText().toString();
                 saveStickerMemory.SaveImage(getContext(), imagen, nombre, categoria);
+
             }
         });
         this.setNegativeButton(android.R.string.no, null);

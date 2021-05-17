@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,17 +24,30 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.fdi.stickerlab.Model.StickerEntity;
+
 public class MainActivity extends AppCompatActivity {
     //public static AppDatabase db;
     SearchView searchView;
     SectionsPagerAdapter sectionsPagerAdapter;
-    private StickerViewModel myStickerViewModel;
+    public static StickerViewModel myStickerViewModel;
+
+    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        final TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+
+        final AppBarLayout appBar = findViewById(R.id.appbar);
+
+        final FloatingActionButton fab = findViewById(R.id.fab);
 
         /*------------------------INSTANCIACIÓN DE LA BASE DE DATOS---------------------*/
         //Creamos un ViewModel con el Provider, para la Base de datos
@@ -49,15 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*------------------------------------------------------------------------------*/
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        final TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
 
-        final AppBarLayout appBar = findViewById(R.id.appbar);
-
-        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,5 +189,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    /*
+    public void onStickerInsertResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            StickerEntity sticker = new StickerEntity(data.getStringExtra(StickerEntity.EXTRA_REPLY));
+            myStickerViewModel.insert(sticker);
+        } else {
+                //Error de inserción
+        }
+    }*/
 
 }

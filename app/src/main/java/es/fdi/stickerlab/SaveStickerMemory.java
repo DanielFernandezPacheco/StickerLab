@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import es.fdi.stickerlab.Model.StickerEntity;
+
+import static es.fdi.stickerlab.MainActivity.myStickerViewModel;
+
 public class SaveStickerMemory {
 
     private Context TheThis;
@@ -41,6 +45,17 @@ public class SaveStickerMemory {
             fOut.close();
             MakeSureFileWasCreatedThenMakeAvabile(file);
             AbleToSave();
+
+            //-------------------------GUARDAMOS EN LA BASE DE DATOS--------------------------//
+
+            //El nombre ya nos sirve de id
+            StickerEntity sticker = new StickerEntity(1, nombre, categoria, file_path);
+            myStickerViewModel.insert(sticker);
+            Toast.makeText(TheThis, sticker.getNombre()+" guardado correctamente en "+sticker.getCategoria(), Toast.LENGTH_SHORT).show();
+            //--------------------------------------------------------------------------------//
+
+
+
         }
 
         catch(FileNotFoundException e) {
