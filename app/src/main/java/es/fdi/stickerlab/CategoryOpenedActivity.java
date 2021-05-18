@@ -3,19 +3,12 @@ package es.fdi.stickerlab;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -166,8 +159,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
 
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = mInflater.inflate(
-                        R.layout.stickeritem, null);
+                convertView = mInflater.inflate(R.layout.sticker_item, null);
                 holder.imageview = (ImageView) convertView.findViewById(R.id.stickerImage);
                 holder.checkbox = (CheckBox) convertView.findViewById(R.id.itemCheckBox);
 
@@ -176,6 +168,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
             else {
                 holder = (ViewHolder) convertView.getTag();
             }
+
             holder.checkbox.setId(position);
             holder.imageview.setId(position);
             holder.checkbox.setOnClickListener(new View.OnClickListener() {
@@ -197,8 +190,9 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
             holder.imageview.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    /*int id = v.getId();
+                    int id = v.getId();
+
+                    /*
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse("file://" + arrPath[id]), "image/webp");
