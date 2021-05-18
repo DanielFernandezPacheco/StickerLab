@@ -30,8 +30,8 @@ public interface StickerDAO {
 
 
     //Obtener un sticker por nombre
-    @Query("SELECT * FROM " + StickerEntity.TABLE_NAME + " WHERE " + StickerEntity.COLUMN_NOMBRE + " = :nombre")
-    List<StickerEntity> getStickerByName(String nombre);
+    @Query("SELECT ruta FROM stickers WHERE nombre LIKE '%' || :nombre || '%' ")
+    List<String> getStickerByName(String nombre);
 
 
     // Permitimos la inserción múltiple evitando conflicto

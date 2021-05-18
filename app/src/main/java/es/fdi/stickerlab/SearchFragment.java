@@ -1,11 +1,16 @@
 package es.fdi.stickerlab;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.room.Room;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,47 +19,62 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class CategoryOpenedActivity extends AppCompatActivity implements View.OnClickListener{
+import es.fdi.stickerlab.DAO.AppDatabase;
+import es.fdi.stickerlab.Model.StickerEntity;
+
+
+public class SearchFragment extends Fragment {
+    private File[] stickerList;
     private int count;
     private Bitmap[] stickers;
     private boolean[] stickersSelection;
-    private ImageAdapter imageAdapter;
+    private SearchFragment.ImageAdapter imageAdapter;
     private String categoryTitle;
-    private File[] stickerList;
+    private Context context;
+    GridView imagegrid;
+    private String[] pathList;
+
+    public SearchFragment() {
+    }
+    public SearchFragment(Context context) {
+        this.context = context;
+        this.pathList = new String[0];
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_opened);
-        TextView title = findViewById(R.id.categoryOpenedTitle);
-        categoryTitle = getIntent().getExtras().get("title").toString();
-        title.setText(categoryTitle);
+    }
 
-        stickerList = getStickerList();
-        this.count = stickerList==null? 0: stickerList.length;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_search, container, false);
+    }
 
-        this.stickers = new Bitmap[this.count];
-        
-        this.stickersSelection = new boolean[this.count];
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        for (int i = 0; i < this.count; i++) {
-            stickers[i] = getBitmapFromFile(stickerList[i], 300);
-        }
+        //cambiar esto cuando se muestren los stickers
+        stickersSelection = new boolean[]{false};
 
-        GridView imagegrid = (GridView) findViewById(R.id.PhoneImageGrid);
-        imageAdapter = new ImageAdapter();
+        imagegrid = (GridView) view.findViewById(R.id.SearchStickerGrid);
+        imageAdapter = new SearchFragment.ImageAdapter();
         imagegrid.setAdapter(imageAdapter);
 
-        final Button selectBtn = (Button) findViewById(R.id.selectBtn);
+        final Button selectBtn = (Button) view.findViewById(R.id.searchViewBtn);
         selectBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -70,32 +90,58 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                     }
                 }
                 if (cnt == 0){
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(view.getContext(),
                             "Selecciona algún sticker",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(view.getContext(),
                             "Has seleccionado " + cnt + " stickers.",
                             Toast.LENGTH_LONG).show();
                     //Log.d("SelectedImages", selectImages);
                 }
             }
         });
+    }
+
+    public void OnQueryChanged(String query){
+        
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<String> stickerPaths = Room.databaseBuilder(context, AppDatabase.class, "stickers").allowMainThreadQueries().build()
+                        .getDatabase(context).stickerDAO().getStickerByName(query);
+                //Log.d("depurar", String.valueOf(stickerPaths));
+                pathList = stickerPaths.toArray(new String[stickerPaths.size()]);
+            }
+        });
+
+
+        stickerList = getStickerList(pathList);
+        this.count = stickerList==null? 0: stickerList.length;
+
+        this.stickers = new Bitmap[this.count];
+
+        this.stickersSelection = new boolean[this.count];
+
+        for (int i = 0; i < this.count; i++) {
+            stickers[i] = getBitmapFromFile(stickerList[i], 300);
+        }
 
 
     }
 
-    private File[] getStickerList(){
-        File stickersDir = new File(this.getExternalFilesDir(null).getAbsolutePath() + "/stickers/" + categoryTitle);
 
-        File[] stickerList = stickersDir.listFiles(new FilenameFilter() {
+    private File[] getStickerList(String[] pathList){
+        ArrayList<File> stickerArrayList = new ArrayList<File>();
 
-            public boolean accept(File dir, String name)
-            {
-                return ((name.endsWith(".webp")));
-            }
+        for (int i = 0; i<pathList.length ; i++){
+            stickerArrayList.add(new File(pathList[i]));
+        }
 
-        });
+        stickerArrayList.toArray(new File[pathList.length]);
+
+        File[] stickerList = new File[stickerArrayList.size()];
+        stickerArrayList.toArray(stickerList);
 
         return stickerList;
     }
@@ -137,9 +183,10 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
 
     public class ImageAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
-        private ViewHolder holder;
+        private SearchFragment.ViewHolder holder;
+
         public ImageAdapter() {
-            mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mInflater = (LayoutInflater) MainActivity.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         public int getCount() {
@@ -158,7 +205,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
 
 
             if (convertView == null) {
-                holder = new ViewHolder();
+                holder = new SearchFragment.ViewHolder();
                 convertView = mInflater.inflate(R.layout.sticker_item, null);
                 holder.imageview = (ImageView) convertView.findViewById(R.id.stickerImage);
                 holder.checkbox = (CheckBox) convertView.findViewById(R.id.itemCheckBox);
@@ -166,7 +213,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                 convertView.setTag(holder);
             }
             else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (SearchFragment.ViewHolder) convertView.getTag();
             }
 
             holder.checkbox.setId(position);
@@ -209,11 +256,5 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
         ImageView imageview;
         CheckBox checkbox;
         int id;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.categoryOpenedTitle || v.getId() == R.id.categoryOpenedArrow)
-            finish();
     }
 }

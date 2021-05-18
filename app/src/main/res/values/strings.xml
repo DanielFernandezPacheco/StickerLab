@@ -7,6 +7,9 @@
     <string name="category">Categoría</string>
     <string name="maker">Maker</string>
     <string name="stickers">Stickers</string>
+    <string name="send">Enviar</string>
     <string name="upload">Buscar Imagen</string>
     <string name="mensajemaker">CREA TUS PROPIOS STICKERS A PARTIR DE TUS FOTOS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

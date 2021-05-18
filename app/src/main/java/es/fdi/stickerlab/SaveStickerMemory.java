@@ -61,7 +61,7 @@ public class SaveStickerMemory {
             //Convertimos a long el id
             long id_converted = Long.parseLong(unir_fecha_3);
 
-            StickerEntity sticker = new StickerEntity(id_converted,nombre, categoria, file_path);
+            StickerEntity sticker = new StickerEntity(id_converted,nombre, categoria, file_path + "/" + nombre + ".webp");
             myStickerViewModel.insert(sticker);
 
             Toast.makeText(TheThis, sticker.getNombre()+" guardado correctamente en "+sticker.getCategoria(), Toast.LENGTH_SHORT).show();

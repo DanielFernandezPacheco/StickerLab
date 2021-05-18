@@ -1,9 +1,12 @@
 package es.fdi.stickerlab;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -29,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
     public static AppDatabase db;
     SearchView searchView;
     SectionsPagerAdapter sectionsPagerAdapter;
+    private static Context context;
     public static StickerViewModel myStickerViewModel;
+
 
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        context = this;
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -111,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        SearchFragment searchFragment = new SearchFragment(this);
+        FragmentContainerView searchFragmentContainer = findViewById(R.id.searchFragment);
+        searchFragmentContainer.setVisibility(View.INVISIBLE);
 
         searchView = findViewById(R.id.searchView);
 
@@ -120,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 titleImage.setVisibility(View.GONE);
                 titleText.setVisibility(View.GONE);
+                searchFragmentContainer.setVisibility(View.VISIBLE);
+                tabs.setVisibility(View.GONE);
+                viewPager.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
             }
         });
 
@@ -129,16 +141,33 @@ public class MainActivity extends AppCompatActivity {
             public boolean onClose() {
                 titleImage.setVisibility(View.VISIBLE);
                 titleText.setVisibility(View.VISIBLE);
+                searchFragmentContainer.setVisibility(View.INVISIBLE);
+                tabs.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.VISIBLE);
                 return false;
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchFragment.OnQueryChanged(newText);
+                return false;
+            }
+        });
         Intent intent = getIntent();
         receiveStickerIntent(intent);
 
         // para que receiveStickerIntent no lo trate más, así se evita que al girar la pantalla
         // vuelva a aparecer el Dialog aún habiéndolo cerrado
         intent.setType(null);
+
     }
 
     @Override
@@ -199,4 +228,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
 
+    public static Context getAppContext() {
+        return context;
+    }
 }

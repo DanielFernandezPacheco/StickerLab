@@ -108,7 +108,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/button_background"
-                    android:text="Enviar"
+                    android:text="@string/send"
                     android:textColor="@android:color/white" />
 
                 <GridView

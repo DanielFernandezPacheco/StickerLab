@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReceivedStickerDialog extends AlertDialog.Builder {
-    public static final String NO_CATEGORY = "Sin categoría";
     View view;
     Bitmap imagen;
     String nombre, categoria;
@@ -35,6 +34,13 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
         imagen = bitmap;
         this.createView(context, imagen);
         this.buttonsActions();
+
+        int pos = categories.indexOf("Sin categoría");
+        if(pos != -1) {
+            for (int i = pos; i > 0; i--)
+                categories.set(i, categories.get(i - 1));
+            categories.set(0, "Sin categoría");
+        }
         this.spinnerActions(categories);
 
         this.show();
@@ -75,8 +81,9 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
     private  void spinnerActions(final ArrayList<String> categories){
         Spinner spinner = view.findViewById(R.id.spinnerCategory);
 
-        categories.add(0, NO_CATEGORY);
+
         spinner.setAdapter(new ArrayAdapter<String>(getContext(),
+
                 android.R.layout.simple_spinner_dropdown_item, categories));
 
 
