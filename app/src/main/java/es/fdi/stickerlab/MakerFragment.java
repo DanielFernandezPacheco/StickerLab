@@ -59,6 +59,13 @@ public class MakerFragment  extends Fragment {
         cargarImagen();
     }
 
+    public void onClickFab(View v) {
+        new addCategoryDialog(getContext());
+
+                /*Category category;
+
+                db.categoryDAO().insertCategoty(Category);*/
+    }
     private void cargarImagen() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE);
@@ -83,7 +90,7 @@ public class MakerFragment  extends Fragment {
             }
 
             // cambiar y coger directamente de la bbdd para que no de problemas de null pointer, que los da jaja
-            ArrayList<String> categories = CategoriesFragment.getCategories();
+            ArrayList<String> categories = CategoriesFragment.getCategories(mContext);
 
             new ReceivedStickerDialog(mContext, bitmap, categories);
         }

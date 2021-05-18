@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         final AppBarLayout appBar = findViewById(R.id.appbar);
 
-        final FloatingActionButton fab = findViewById(R.id.fab);
+
 
         /*------------------------INSTANCIACIÓN DE LA BASE DE DATOS---------------------*/
         //Creamos un ViewModel con el Provider, para la Base de datos
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*------------------------------------------------------------------------------*/
-
+        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
                 // cambiar y coger directamente de la bbdd para que no de problemas de null pointer, que los da jaja
-                ArrayList<String> categories = CategoriesFragment.getCategories();
+                ArrayList<String> categories = CategoriesFragment.getCategories(this);
 
                 new ReceivedStickerDialog(this, bitmap, categories);
 

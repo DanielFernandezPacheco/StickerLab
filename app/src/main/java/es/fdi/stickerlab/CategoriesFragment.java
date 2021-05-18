@@ -1,5 +1,6 @@
 package es.fdi.stickerlab;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,14 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CategoriesFragment extends Fragment {
     public static final int NUM_CATEGORIES_TEST = 20;
-    private static ArrayList<String> categories;
     private RecyclerView recyclerView;
-    private CategoryListAdapter categoryListAdapter;
+    private static CategoryListAdapter categoryListAdapter;
     private TextView noStickerInfo;
 
     @Override
@@ -33,9 +35,7 @@ public class CategoriesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        categories = new ArrayList<String>();
-        for (int i = 1; i <= NUM_CATEGORIES_TEST; i++) categories.add("Categoría " + String.valueOf(i));
+        ArrayList<String> categories = getCategories(view.getContext());
 
         recyclerView = view.findViewById(R.id.categoriesRecyclerView);
 
@@ -49,9 +49,19 @@ public class CategoriesFragment extends Fragment {
         categoryListAdapter = new CategoryListAdapter(view.getContext(), categories);
         recyclerView.setAdapter(categoryListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
     }
 
-    public static ArrayList<String> getCategories() {
+    public static ArrayList<String> getCategories(Context context) {
+        ArrayList<String> categories;
+        String file_path = context.getExternalFilesDir(null).getAbsolutePath() + "/stickers/";
+        File dir = new File(file_path);
+        categories = new ArrayList<String>(Arrays.asList(dir.list()));
+
         return categories;
     }
+    public static CategoryListAdapter getAdapter() {
+        return categoryListAdapter;
+    }
+
 }

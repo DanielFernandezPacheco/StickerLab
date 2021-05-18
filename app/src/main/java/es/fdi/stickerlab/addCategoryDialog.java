@@ -2,17 +2,22 @@ package es.fdi.stickerlab;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+
+import java.io.File;
 
 public class addCategoryDialog extends AlertDialog.Builder {
     public static final String NO_CATEGORY = "Sin categoría";
     View view;
     EditText categoryName;
+
     public addCategoryDialog(@NonNull Context context) {
         super(context, R.style.RoundedCornersDialog);
 
@@ -42,7 +47,22 @@ public class addCategoryDialog extends AlertDialog.Builder {
         // Acción del botón guardar
         this.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // Almacenar sticker
+                    if(categoryName.getText().toString().trim().equals(""))
+                        Toast.makeText(context,"Introduce un nombre para la categoría", Toast.LENGTH_SHORT).show();
+                    else {
+                        String file_path = context.getExternalFilesDir(null).getAbsolutePath() + "/stickers/" + categoryName.getText().toString();
+
+                        File dir = new File(file_path);
+
+                        if (!dir.exists()){
+                            dir.mkdirs();
+                            CategoryListAdapter adapter = CategoriesFragment.getAdapter();
+                            adapter.setCategories(CategoriesFragment.getCategories(context));
+                            adapter.notifyDataSetChanged();
+                        }
+                        else
+                            Toast.makeText(context, "Ya existe una categoría con ese nombre", Toast.LENGTH_SHORT).show();
+                    }
             }
         });
         this.setNegativeButton("Cancelar", null);

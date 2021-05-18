@@ -16,19 +16,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
-    private ArrayList<String> categories;
+    private static ArrayList<String> categories;
     private LayoutInflater inflater;
     private Context context;
 
     public CategoryListAdapter(Context context, ArrayList<String> categories){
         inflater = LayoutInflater.from(context);
         this.context = context;
+
         this.categories = categories;
+
+        // Mantiene Sin categoría en la primera posición
+        int pos = this.categories.indexOf("Sin categoría");
+        if(pos != -1) {
+            for (int i = pos; i > 0; i--)
+                this.categories.set(i, this.categories.get(i - 1));
+            this.categories.set(0, "Sin categoría");
+        }
     }
 
     // llamar para actualizar la lista cuando se añadan categorías
-    public void setCategories(ArrayList<String> categories) {
-        this.categories = categories;
+    public static void setCategories(ArrayList<String> categories) {
+        int pos = categories.indexOf("Sin categoría");
+        if(pos != -1) {
+            for (int i = pos; i > 0; i--)
+                categories.set(i, categories.get(i - 1));
+            categories.set(0, "Sin categoría");
+        }
+        CategoryListAdapter.categories = categories;
     }
 
     @NonNull
