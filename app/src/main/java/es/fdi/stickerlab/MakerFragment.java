@@ -61,10 +61,6 @@ public class MakerFragment  extends Fragment {
 
     private void cargarImagen() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        //intent.setType("image/");
-       // startActivityForResult(intent.createChooser(intent,"Selecciona la aplicación"),10);
-
-
         startActivityForResult(intent, PICK_IMAGE);
     }
 
