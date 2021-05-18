@@ -17,7 +17,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -39,6 +39,7 @@
 
                 <data android:mimeType="image/*" />
             </intent-filter>
+
         </activity>
     </application>
 
