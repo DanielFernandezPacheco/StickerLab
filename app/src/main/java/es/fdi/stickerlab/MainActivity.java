@@ -1,31 +1,22 @@
 package es.fdi.stickerlab;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.room.Room;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.FileNotFoundException;
@@ -33,12 +24,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import es.fdi.stickerlab.DAO.AppDatabase;
-import es.fdi.stickerlab.Model.Category;
 
 public class MainActivity extends AppCompatActivity {
     public static AppDatabase db;
     SearchView searchView;
     SectionsPagerAdapter sectionsPagerAdapter;
+    public static StickerViewModel myStickerViewModel;
+
+    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
         final AppBarLayout appBar = findViewById(R.id.appbar);
 
         final FloatingActionButton fab = findViewById(R.id.fab);
+
+        /*------------------------INSTANCIACIÓN DE LA BASE DE DATOS---------------------*/
+        //Creamos un ViewModel con el Provider, para la Base de datos
+        myStickerViewModel = new ViewModelProvider(this).get(StickerViewModel.class);
+
+        //Añadimos un observador de LiveData
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        myStickerViewModel.getAll().observe(this, words -> {
+            // Update the cached copy of the words in the adapter.
+            //adapter.submitList(words);
+        });
+
+        /*------------------------------------------------------------------------------*/
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,5 +186,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    /*
+    public void onStickerInsertResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            StickerEntity sticker = new StickerEntity(data.getStringExtra(StickerEntity.EXTRA_REPLY));
+            myStickerViewModel.insert(sticker);
+        } else {
+                //Error de inserción
+        }
+    }*/
 
 }

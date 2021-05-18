@@ -7,6 +7,6 @@
     <string name="category">Categoría</string>
     <string name="maker">Maker</string>
     <string name="stickers">Stickers</string>
-    <string name="upload">Buscar imagen</string>
+    <string name="crear">CREAR</string>
     <string name="mensajemaker">CREA TUS PROPIOS STICKERS A PARTIR DE TUS FOTOS</string>
 </resources>
