@@ -15,6 +15,7 @@ import es.fdi.stickerlab.Model.StickerEntity;
 public class StickerRepository {
     private static StickerDAO myStickerDAO;
     private static LiveData<List<StickerEntity>> myAllSticker;
+    private static int myCount;
 
     StickerRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -39,6 +40,10 @@ public class StickerRepository {
                 myStickerDAO.insert(mySticker);
             }
         });
+    }
+
+    public static int count(){
+        return myStickerDAO.count();
     }
 
 }

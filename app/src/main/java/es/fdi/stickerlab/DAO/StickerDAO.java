@@ -45,10 +45,11 @@ public interface StickerDAO {
     void insertAll(StickerEntity ... stickers);
     */
 
+    /*
     //Eliminar un sticker
     @Query("DELETE FROM " + StickerEntity.TABLE_NAME + " WHERE " + StickerEntity.COLUMN_ID + " = :id")
     int deleteStickerById(long id);
-
+    */
 
     //Eliminar todos los Stickers
     @Query("DELETE FROM " + StickerEntity.TABLE_NAME)

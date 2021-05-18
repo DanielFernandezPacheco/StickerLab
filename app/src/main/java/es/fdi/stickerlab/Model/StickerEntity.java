@@ -27,12 +27,14 @@ public class StickerEntity {
     @ColumnInfo(name = "ruta")
     private String ruta;
 
+
     public StickerEntity(long id, String nombre, String categoria, String ruta) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.ruta = ruta;
     }
+
 
     public long getId() {
         return id;

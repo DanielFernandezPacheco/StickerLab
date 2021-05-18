@@ -50,8 +50,8 @@ public abstract class AppDatabase extends RoomDatabase {
             databaseWriteExecutor.execute(() -> {
                 StickerDAO dao = INSTANCE.stickerDAO();
 
-                StickerEntity sticker = new StickerEntity(1,"sticker","1","C:/");
-                dao.insert(sticker);
+                /*StickerEntity sticker = new StickerEntity(1,"sticker","1","C:/");
+                dao.insert(sticker);*/
             });
         }
     };

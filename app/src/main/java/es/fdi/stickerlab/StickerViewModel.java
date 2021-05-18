@@ -28,5 +28,9 @@ public class StickerViewModel extends AndroidViewModel {
 
     //Método insert que llama al insert() del repositorio y se encapsula así el insert desde la UI
     public void insert(StickerEntity sticker){ myRepository.insert(sticker);}
+
+    public int count() {
+        return myRepository.count();
+    }
 }
 

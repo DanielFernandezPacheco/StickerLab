@@ -7,12 +7,15 @@ import android.net.Uri;
 import android.os.Environment;
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import es.fdi.stickerlab.Model.StickerEntity;
 
@@ -23,6 +26,7 @@ public class SaveStickerMemory {
     private Context TheThis;
     private String NameOfFolder = "/stickers/";
     private String NameOfFile = "imagen";
+    //public static int id_us = 2;
 
     public void SaveImage(Context context, Bitmap ImageToSave, String nombre, String categoria) {
 
@@ -48,10 +52,18 @@ public class SaveStickerMemory {
 
             //-------------------------GUARDAMOS EN LA BASE DE DATOS--------------------------//
 
-            //El nombre ya nos sirve de id
-            StickerEntity sticker = new StickerEntity(1, nombre, categoria, file_path);
+            //El id es el nombre + varios atributos que lo hacen único
+            String id = nombre + '_' +CurrentDateAndTime + ".webp";
+            //int cuenta = myStickerViewModel.count()+1;
+            StickerEntity sticker = new StickerEntity(4,nombre, categoria, file_path);
             myStickerViewModel.insert(sticker);
+            //LiveData<List<StickerEntity>> myList = myStickerViewModel.getAll();
+            /*
+            for(int i = 0; i < myStickerViewModel.count(); i++){
+                myList.getValue().toString();
+            }*/
             Toast.makeText(TheThis, sticker.getNombre()+" guardado correctamente en "+sticker.getCategoria(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(TheThis, cuenta + "", Toast.LENGTH_SHORT).show();
             //--------------------------------------------------------------------------------//
 
 
