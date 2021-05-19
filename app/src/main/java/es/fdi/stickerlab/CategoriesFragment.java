@@ -23,8 +23,15 @@ public class CategoriesFragment extends Fragment {
     public static final int NUM_CATEGORIES_TEST = 20;
     private RecyclerView recyclerView;
     private static CategoryListAdapter categoryListAdapter;
+    private static Context mContext;
     private TextView noStickerInfo;
 
+    
+     public CategoriesFragment(Context context) {
+        super();
+        mContext = context;
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +69,10 @@ public class CategoriesFragment extends Fragment {
     }
     public static CategoryListAdapter getAdapter() {
         return categoryListAdapter;
+    }
+    
+    public static Context getAppContext() {
+        return mContext;
     }
 
 }
