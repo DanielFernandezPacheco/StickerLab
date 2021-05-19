@@ -105,7 +105,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                             Toast.LENGTH_LONG).show();
                 } else {
                     finish();
-                    AlertDialog.Builder dialogo = new AlertDialog.Builder(CategoriesFragment.getAppContext());
+                    AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.getAppContext());
                     dialogo.setMessage("¿ Estás seguro de que quieres eliminar estos stickers ?");
                     dialogo.setCancelable(false);
                     dialogo.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -121,20 +121,20 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                             Toast.makeText(getApplicationContext(),
                                     "Has eliminado " + c + " stickers.",
                                     Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                            Intent i = new Intent(MainActivity.getAppContext(), CategoryOpenedActivity.class);
                             i.putExtra("title", categoryTitle);
                             //i.putExtra("c",  context);
-                            CategoriesFragment.getAppContext().startActivity(i);
+                            MainActivity.getAppContext().startActivity(i);
 
                         }
                     });
                     dialogo.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialogo, int id) {
                             finish();
-                            Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                            Intent i = new Intent(MainActivity.getAppContext(), CategoryOpenedActivity.class);
                             i.putExtra("title", categoryTitle);
                             //i.putExtra("c",  context);
-                            CategoriesFragment.getAppContext().startActivity(i);
+                            MainActivity.getAppContext().startActivity(i);
                         }
                     });
                     dialogo.show();

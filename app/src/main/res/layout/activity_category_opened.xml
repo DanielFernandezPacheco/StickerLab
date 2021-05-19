@@ -105,7 +105,7 @@
                 <GridView
                     android:id="@+id/PhoneImageGrid"
                     android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:columnWidth="90dp"
                     android:gravity="center"
