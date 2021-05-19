@@ -41,7 +41,7 @@ public class SearchFragment extends Fragment {
     private SearchFragment.ImageAdapter imageAdapter;
     private String categoryTitle;
     private Context context;
-    GridView imagegrid;
+    private GridView imagegrid;
     private String[] pathList;
 
     public SearchFragment() {
