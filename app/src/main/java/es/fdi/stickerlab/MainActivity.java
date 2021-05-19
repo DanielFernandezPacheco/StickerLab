@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -157,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchFragment.OnQueryChanged(newText);
+                newText = newText.trim();
+                if(!newText.isEmpty())
+                    searchFragment.OnQueryChanged(newText);
                 return false;
             }
         });

@@ -23,7 +23,7 @@ public class CategoriesFragment extends Fragment {
     public static final int NUM_CATEGORIES_TEST = 20;
     private RecyclerView recyclerView;
     private static CategoryListAdapter categoryListAdapter;
-    private TextView noStickerInfo;
+    private static TextView noStickerInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,4 +64,7 @@ public class CategoriesFragment extends Fragment {
         return categoryListAdapter;
     }
 
+    public static void hideNoStickerInfo(){
+        noStickerInfo.setVisibility(View.INVISIBLE);
+    }
 }

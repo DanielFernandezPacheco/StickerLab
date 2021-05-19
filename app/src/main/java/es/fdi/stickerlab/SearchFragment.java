@@ -3,6 +3,7 @@ package es.fdi.stickerlab;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -10,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,14 +39,12 @@ import es.fdi.stickerlab.Model.StickerEntity;
 
 
 public class SearchFragment extends Fragment {
-    private File[] stickerList;
     private int count;
     private Bitmap[] stickers;
     private boolean[] stickersSelection;
     private SearchFragment.ImageAdapter imageAdapter;
-    private String categoryTitle;
     private Context context;
-    private GridView imagegrid;
+    private static GridView imagegrid;
     private String[] pathList;
 
     public SearchFragment() {
@@ -61,28 +64,23 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        imagegrid = (GridView) getView().findViewById(R.id.SearchStickerGrid);
 
-        //cambiar esto cuando se muestren los stickers
-        stickersSelection = new boolean[]{false};
 
-        imagegrid = (GridView) view.findViewById(R.id.SearchStickerGrid);
-        imageAdapter = new SearchFragment.ImageAdapter();
-        imagegrid.setAdapter(imageAdapter);
 
         final Button selectBtn = (Button) view.findViewById(R.id.searchViewBtn);
         selectBtn.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                final int len = stickersSelection.length;
                 int cnt = 0;
                 //String selectImages = "";
-                for (int i =0; i<len; i++)
+                for (int i =0; i<count; i++)
                 {
                     if (stickersSelection[i]){
                         cnt++;
@@ -110,40 +108,34 @@ public class SearchFragment extends Fragment {
             public void run() {
                 List<String> stickerPaths = Room.databaseBuilder(context, AppDatabase.class, "stickers").allowMainThreadQueries().build()
                         .getDatabase(context).stickerDAO().getStickerByName(query);
-                //Log.d("depurar", String.valueOf(stickerPaths));
+
+
                 pathList = stickerPaths.toArray(new String[stickerPaths.size()]);
+                Log.d("depurar", "pathlist   " + Arrays.toString(pathList));
+
+                count = pathList==null? 0: pathList.length;
+
+                stickersSelection = new boolean[count];
+                stickers = new Bitmap[count];
+
+                for (int i = 0; i < count; i++) {
+                    Bitmap b = getBitmapFromFile(new File(pathList[i]), 300);
+                    if(b != null)
+                        stickers[i] = b;
+                }
+
+
+                Handler mHandler = new Handler(Looper.getMainLooper());
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageAdapter = new SearchFragment.ImageAdapter();
+                        imagegrid.setAdapter(imageAdapter);
+                    }
+                });
+
             }
         });
-
-
-        stickerList = getStickerList(pathList);
-        this.count = stickerList==null? 0: stickerList.length;
-
-        this.stickers = new Bitmap[this.count];
-
-        this.stickersSelection = new boolean[this.count];
-
-        for (int i = 0; i < this.count; i++) {
-            stickers[i] = getBitmapFromFile(stickerList[i], 300);
-        }
-
-
-    }
-
-
-    private File[] getStickerList(String[] pathList){
-        ArrayList<File> stickerArrayList = new ArrayList<File>();
-
-        for (int i = 0; i<pathList.length ; i++){
-            stickerArrayList.add(new File(pathList[i]));
-        }
-
-        stickerArrayList.toArray(new File[pathList.length]);
-
-        File[] stickerList = new File[stickerArrayList.size()];
-        stickerArrayList.toArray(stickerList);
-
-        return stickerList;
     }
 
     public static Bitmap getBitmapFromFile(File bitmapFile, int sideSizeLimit){
@@ -227,10 +219,13 @@ public class SearchFragment extends Fragment {
                     if (stickersSelection[id]){
                         cb.setChecked(false);
                         stickersSelection[id] = false;
+                        Log.d("depurar", "unchecked " +id);
                     } else {
                         cb.setChecked(true);
                         stickersSelection[id] = true;
+                        Log.d("depurar", "checked " +id);
                     }
+
                 }
             });
 

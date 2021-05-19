@@ -22,7 +22,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
         this.fragments = new ArrayList<Fragment>();
         fragments.add(new CategoriesFragment());
-        fragments.add(new MakerFragment(mContext));
+        fragments.add(new MakerFragment());
     }
 
     @Override

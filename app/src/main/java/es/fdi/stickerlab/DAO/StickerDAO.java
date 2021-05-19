@@ -30,7 +30,7 @@ public interface StickerDAO {
 
 
     //Obtener un sticker por nombre
-    @Query("SELECT ruta FROM stickers WHERE nombre LIKE '%' || :nombre || '%' ")
+    @Query("SELECT ruta FROM stickers WHERE nombre LIKE :nombre || '%' AND nombre NOT LIKE 'noNamedSticker%'")
     List<String> getStickerByName(String nombre);
 
 

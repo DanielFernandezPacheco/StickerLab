@@ -1,5 +1,6 @@
 package es.fdi.stickerlab;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -19,7 +20,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     private static ArrayList<String> categories;
     private LayoutInflater inflater;
     private Context context;
-
     public CategoryListAdapter(Context context, ArrayList<String> categories){
         inflater = LayoutInflater.from(context);
         this.context = context;
@@ -37,12 +37,9 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     // llamar para actualizar la lista cuando se añadan categorías
     public static void setCategories(ArrayList<String> categories) {
-        int pos = categories.indexOf("Sin categoría");
-        if(pos != -1) {
-            for (int i = pos; i > 0; i--)
-                categories.set(i, categories.get(i - 1));
-            categories.set(0, "Sin categoría");
-        }
+
+        if(!categories.isEmpty())
+            CategoriesFragment.hideNoStickerInfo();
         CategoryListAdapter.categories = categories;
     }
 
@@ -50,7 +47,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View categoryView = inflater.inflate(R.layout.category_layout, parent, false);
-
 
         return new ViewHolder(categoryView);
     }

@@ -35,12 +35,18 @@ public class ReceivedStickerDialog extends AlertDialog.Builder {
         this.createView(context, imagen);
         this.buttonsActions();
 
-        int pos = categories.indexOf("Sin categoría");
-        if(pos != -1) {
+        if(categories.isEmpty()) {
+            categories.add("Sin categoría");
+            CategoryListAdapter.setCategories(categories);
+        }else {
+            int pos = categories.indexOf("Sin categoría");
+            if (pos == -1)
+                pos = categories.size() - 1;
             for (int i = pos; i > 0; i--)
                 categories.set(i, categories.get(i - 1));
             categories.set(0, "Sin categoría");
         }
+
         this.spinnerActions(categories);
 
         this.show();
