@@ -26,9 +26,8 @@ public class CategoriesFragment extends Fragment {
     private static TextView noStickerInfo;
 
     
-     public CategoriesFragment(Context context) {
+     public CategoriesFragment() {
         super();
-        mContext = context;
     }
     
     @Override
@@ -68,10 +67,6 @@ public class CategoriesFragment extends Fragment {
     }
     public static CategoryListAdapter getAdapter() {
         return categoryListAdapter;
-    }
-    
-    public static Context getAppContext() {
-        return mContext;
     }
 
     public static void hideNoStickerInfo(){
