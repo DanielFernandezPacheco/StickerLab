@@ -24,10 +24,12 @@ public class CategoriesFragment extends Fragment {
     private RecyclerView recyclerView;
     private static CategoryListAdapter categoryListAdapter;
     private static TextView noStickerInfo;
+    private static Context mContext;
 
     
-     public CategoriesFragment() {
+     public CategoriesFragment(Context context) {
         super();
+        mContext = context;
     }
     
     @Override
@@ -67,6 +69,10 @@ public class CategoriesFragment extends Fragment {
     }
     public static CategoryListAdapter getAdapter() {
         return categoryListAdapter;
+    }
+
+    public static Context getAppContext() {
+        return mContext;
     }
 
     public static void hideNoStickerInfo(){

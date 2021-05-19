@@ -21,7 +21,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
         this.fragments = new ArrayList<Fragment>();
-        fragments.add(new CategoriesFragment());
+        fragments.add(new CategoriesFragment(context));
         fragments.add(new MakerFragment());
     }
 
