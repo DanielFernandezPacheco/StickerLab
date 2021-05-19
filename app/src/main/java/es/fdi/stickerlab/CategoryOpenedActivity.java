@@ -1,5 +1,7 @@
 package es.fdi.stickerlab;
 
+package es.fdi.stickerlab;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
