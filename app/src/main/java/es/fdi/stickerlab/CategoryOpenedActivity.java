@@ -1,5 +1,7 @@
 package es.fdi.stickerlab;
 
+package es.fdi.stickerlab;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -79,6 +81,65 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                             Toast.LENGTH_LONG).show();
                     //Log.d("SelectedImages", selectImages);
                 }
+            }
+        });
+        
+        final Button deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                final int len = stickersSelection.length;
+                int cnt = 0;
+                //String selectImages = "";
+                for (int i = 0; i < len; i++) {
+                    if (stickersSelection[i]) {
+                        cnt++;
+                        //selectImages = selectImages + arrPath[i] + "|";
+                    }
+                }
+                if (cnt == 0) {
+                    Toast.makeText(getApplicationContext(),
+                            "Selecciona algún sticker",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    finish();
+                    AlertDialog.Builder dialogo = new AlertDialog.Builder(CategoriesFragment.getAppContext());
+                    dialogo.setMessage("¿ Estás seguro de que quieres eliminar estos stickers ?");
+                    dialogo.setCancelable(false);
+                    dialogo.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo, int id) {
+                            int c = 0;
+                            for (int i = 0; i < len; i++) {
+                                if (stickersSelection[i]) {
+                                    c++;
+                                    stickerList[i].delete();
+                                    //selectImages = selectImages + arrPath[i] + "|";
+                                }
+                            }
+                            Toast.makeText(getApplicationContext(),
+                                    "Has eliminado " + c + " stickers.",
+                                    Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                            i.putExtra("title", categoryTitle);
+                            //i.putExtra("c",  context);
+                            CategoriesFragment.getAppContext().startActivity(i);
+
+                        }
+                    });
+                    dialogo.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo, int id) {
+                            finish();
+                            Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                            i.putExtra("title", categoryTitle);
+                            //i.putExtra("c",  context);
+                            CategoriesFragment.getAppContext().startActivity(i);
+                        }
+                    });
+                    dialogo.show();
+                }
+
+
             }
         });
 

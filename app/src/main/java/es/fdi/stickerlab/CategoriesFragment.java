@@ -25,6 +25,12 @@ public class CategoriesFragment extends Fragment {
     private static CategoryListAdapter categoryListAdapter;
     private static TextView noStickerInfo;
 
+    
+     public CategoriesFragment(Context context) {
+        super();
+        mContext = context;
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +68,10 @@ public class CategoriesFragment extends Fragment {
     }
     public static CategoryListAdapter getAdapter() {
         return categoryListAdapter;
+    }
+    
+    public static Context getAppContext() {
+        return mContext;
     }
 
     public static void hideNoStickerInfo(){
