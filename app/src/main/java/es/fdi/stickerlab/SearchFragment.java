@@ -41,7 +41,7 @@ import es.fdi.stickerlab.Model.StickerEntity;
 public class SearchFragment extends Fragment {
     private int count;
     private Bitmap[] stickers;
-    private boolean[] stickersSelection;
+    //private boolean[] stickersSelection;
     private SearchFragment.ImageAdapter imageAdapter;
     private Context context;
     private static GridView imagegrid;
@@ -73,8 +73,8 @@ public class SearchFragment extends Fragment {
         imagegrid = (GridView) getView().findViewById(R.id.SearchStickerGrid);
 
 
-
-        final Button selectBtn = (Button) view.findViewById(R.id.searchViewBtn);
+        //PARA FUTURAS IMPLEMENTACIONES
+        /*final Button selectBtn = (Button) view.findViewById(R.id.searchViewBtn);
         selectBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -98,7 +98,7 @@ public class SearchFragment extends Fragment {
                     //Log.d("SelectedImages", selectImages);
                 }
             }
-        });
+        });*/
     }
 
     public void OnQueryChanged(String query){
@@ -115,7 +115,7 @@ public class SearchFragment extends Fragment {
 
                 count = pathList==null? 0: pathList.length;
 
-                stickersSelection = new boolean[count];
+                //stickersSelection = new boolean[count];
                 stickers = new Bitmap[count];
 
                 for (int i = 0; i < count; i++) {
@@ -201,16 +201,16 @@ public class SearchFragment extends Fragment {
                 convertView = mInflater.inflate(R.layout.sticker_item, null);
                 holder.imageview = (ImageView) convertView.findViewById(R.id.stickerImage);
                 holder.checkbox = (CheckBox) convertView.findViewById(R.id.itemCheckBox);
-
+                holder.checkbox.setVisibility(View.INVISIBLE);
                 convertView.setTag(holder);
             }
             else {
                 holder = (SearchFragment.ViewHolder) convertView.getTag();
             }
 
-            holder.checkbox.setId(position);
+            //holder.checkbox.setId(position);
             holder.imageview.setId(position);
-            holder.checkbox.setOnClickListener(new View.OnClickListener() {
+            /*holder.checkbox.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
@@ -234,15 +234,15 @@ public class SearchFragment extends Fragment {
                 public void onClick(View v) {
                     int id = v.getId();
 
-                    /*
+
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse("file://" + arrPath[id]), "image/webp");
-                    startActivity(intent);*/
+                    startActivity(intent);
                 }
-            });
+            });*/
             holder.imageview.setImageBitmap(stickers[position]);
-            holder.checkbox.setChecked(stickersSelection[position]);
+            //holder.checkbox.setChecked(stickersSelection[position]);
             holder.id = position;
             return convertView;
         }

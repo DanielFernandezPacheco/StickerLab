@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,21 +65,41 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                 // TODO Auto-generated method stub
                 final int len = stickersSelection.length;
                 int cnt = 0;
+                int selection = -1;
                 //String selectImages = "";
-                for (int i =0; i<len; i++)
-                {
-                    if (stickersSelection[i]){
+                for (int i = 0; i < len; i++) {
+                    if (stickersSelection[i]) {
                         cnt++;
-                        //selectImages = selectImages + arrPath[i] + "|";
+                        if (selection == -1)
+                            selection = i;
                     }
+
                 }
-                if (cnt == 0){
+                if (cnt == 0) {
                     Toast.makeText(getApplicationContext(),
                             "Selecciona algún sticker",
                             Toast.LENGTH_LONG).show();
+                } else if (cnt == 1) {
+                    Uri imageUri = Uri.parse(stickerList[selection].getAbsolutePath());
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    //Target whatsapp:
+                    shareIntent.setPackage("com.whatsapp");
+                    //Add text and then Image URI
+
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Compartido vía StickerLab");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                    shareIntent.setType("image/webp");
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    try {
+                        startActivity(shareIntent);
+                    } catch (android.content.ActivityNotFoundException ex) {
+                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Has seleccionado " + cnt + " stickers.",
+                            "Has seleccionado " + cnt + " stickers, solo puedes compartir uno",
                             Toast.LENGTH_LONG).show();
                     //Log.d("SelectedImages", selectImages);
                 }

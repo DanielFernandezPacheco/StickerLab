@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+<!--PARA FUTURAS IMPLEMENTACIONES
         <Button
             android:id="@+id/searchViewBtn"
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:background="@drawable/button_background"
             android:text="@string/send"
             android:textColor="@android:color/white" />
-
+!-->
         <GridView
             android:id="@+id/SearchStickerGrid"
             android:layout_width="fill_parent"
