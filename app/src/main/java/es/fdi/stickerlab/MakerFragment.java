@@ -40,11 +40,11 @@ public class MakerFragment  extends Fragment {
     Uri imageUri;
     ImageView imagen;
 
-
     public MakerFragment(Context context) {
         super();
         mContext = context;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,15 +86,15 @@ public class MakerFragment  extends Fragment {
         if (imageUri != null) {
             Bitmap bitmap = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), imageUri);
+                bitmap = MediaStore.Images.Media.getBitmap(MainActivity.getAppContext().getContentResolver(), imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             // cambiar y coger directamente de la bbdd para que no de problemas de null pointer, que los da jaja
-            ArrayList<String> categories = CategoriesFragment.getCategories(mContext);
+            ArrayList<String> categories = CategoriesFragment.getCategories(MainActivity.getAppContext());
 
-            new ReceivedStickerDialog(mContext, bitmap, categories);
+            new ReceivedStickerDialog(MainActivity.getAppContext(), bitmap, categories);
         }
 
     }

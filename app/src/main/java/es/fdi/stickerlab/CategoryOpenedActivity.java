@@ -1,13 +1,14 @@
 package es.fdi.stickerlab;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+
+import static es.fdi.stickerlab.MainActivity.myStickerViewModel;
 
 public class CategoryOpenedActivity extends AppCompatActivity implements View.OnClickListener{
     private int count;
@@ -65,21 +68,41 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                 // TODO Auto-generated method stub
                 final int len = stickersSelection.length;
                 int cnt = 0;
+                int selection = -1;
                 //String selectImages = "";
-                for (int i =0; i<len; i++)
-                {
-                    if (stickersSelection[i]){
+                for (int i = 0; i < len; i++) {
+                    if (stickersSelection[i]) {
                         cnt++;
-                        //selectImages = selectImages + arrPath[i] + "|";
+                        if (selection == -1)
+                            selection = i;
                     }
+
                 }
-                if (cnt == 0){
+                if (cnt == 0) {
                     Toast.makeText(getApplicationContext(),
                             "Selecciona algún sticker",
                             Toast.LENGTH_LONG).show();
+                } else if (cnt == 1) {
+                    Uri imageUri = Uri.parse(stickerList[selection].getAbsolutePath());
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    //Target whatsapp:
+                    shareIntent.setPackage("com.whatsapp");
+                    //Add text and then Image URI
+
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Compartido vía StickerLab");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                    shareIntent.setType("image/webp");
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    try {
+                        startActivity(shareIntent);
+                    } catch (android.content.ActivityNotFoundException ex) {
+                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Has seleccionado " + cnt + " stickers.",
+                            "Has seleccionado " + cnt + " stickers, solo puedes compartir uno",
                             Toast.LENGTH_LONG).show();
                     //Log.d("SelectedImages", selectImages);
                 }
@@ -106,7 +129,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                             Toast.LENGTH_LONG).show();
                 } else {
                     finish();
-                    AlertDialog.Builder dialogo = new AlertDialog.Builder(CategoriesFragment.getAppContext());
+                    AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.getAppContext());
                     dialogo.setMessage("¿ Estás seguro de que quieres eliminar estos stickers ?");
                     dialogo.setCancelable(false);
                     dialogo.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -116,26 +139,29 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                                 if (stickersSelection[i]) {
                                     c++;
                                     stickerList[i].delete();
+
+                                    //Eliminamos el sticker de la base de datos
+                                    myStickerViewModel.deleteByPath(stickerList[i].getAbsolutePath());
                                     //selectImages = selectImages + arrPath[i] + "|";
                                 }
                             }
                             Toast.makeText(getApplicationContext(),
                                     "Has eliminado " + c + " stickers.",
                                     Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                            Intent i = new Intent(MainActivity.getAppContext(), CategoryOpenedActivity.class);
                             i.putExtra("title", categoryTitle);
                             //i.putExtra("c",  context);
-                            CategoriesFragment.getAppContext().startActivity(i);
+                            MainActivity.getAppContext().startActivity(i);
 
                         }
                     });
                     dialogo.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialogo, int id) {
                             finish();
-                            Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                            Intent i = new Intent(MainActivity.getAppContext(), CategoryOpenedActivity.class);
                             i.putExtra("title", categoryTitle);
                             //i.putExtra("c",  context);
-                            CategoriesFragment.getAppContext().startActivity(i);
+                            MainActivity.getAppContext().startActivity(i);
                         }
                     });
                     dialogo.show();
@@ -168,8 +194,8 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                     ArrayList<String> categories = CategoriesFragment.getCategories(MainActivity.getAppContext());
                     new ChangeCategoryStickerDialog(MainActivity.getAppContext(), stickers, stickersSelection,stickerList, categories);
 
-                   // Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
-                   // i.putExtra("title", categoryTitle);
+                    // Intent i = new Intent(CategoriesFragment.getAppContext(), CategoryOpenedActivity.class);
+                    // i.putExtra("title", categoryTitle);
                     //CategoriesFragment.getAppContext().startActivity(i);
 
                 }
