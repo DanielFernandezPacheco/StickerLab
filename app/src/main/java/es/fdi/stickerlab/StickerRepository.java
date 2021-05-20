@@ -42,6 +42,15 @@ public class StickerRepository {
         });
     }
 
+    void deleteByPath(final String ruta){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                myStickerDAO.deleteByPath(ruta);
+            }
+        });
+    }
+
     public static int count(){
         return myStickerDAO.count();
     }

@@ -26,6 +26,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 
+import static es.fdi.stickerlab.MainActivity.myStickerViewModel;
+
 public class CategoryOpenedActivity extends AppCompatActivity implements View.OnClickListener{
     private int count;
     private Bitmap[] stickers;
@@ -136,6 +138,9 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                                 if (stickersSelection[i]) {
                                     c++;
                                     stickerList[i].delete();
+
+                                    //Eliminamos el sticker de la base de datos
+                                    myStickerViewModel.deleteByPath(stickerList[i].getAbsolutePath());
                                     //selectImages = selectImages + arrPath[i] + "|";
                                 }
                             }
