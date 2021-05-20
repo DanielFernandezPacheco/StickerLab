@@ -55,8 +55,13 @@ public interface StickerDAO {
     @Query("DELETE FROM " + StickerEntity.TABLE_NAME)
     void deleteAll();
 
+    //Eliminamos un sticker según la ruta
     @Query("DELETE FROM " + StickerEntity.TABLE_NAME + " WHERE " + StickerEntity.COLUMN_RUTA + " = :ruta")
     void deleteByPath(String ruta);
+
+    //Obtenemos los datos de un sticker según su ruta
+    @Query("SELECT * FROM " + StickerEntity.TABLE_NAME + " WHERE " + StickerEntity.COLUMN_RUTA + " = :ruta")
+    StickerEntity getStickerEntityFromPath(String ruta);
 
     //Actualizar -> En verdad con el Live data no hace falta
     @Update

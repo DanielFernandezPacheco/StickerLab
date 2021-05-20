@@ -34,4 +34,6 @@ public class StickerViewModel extends AndroidViewModel {
     public int count() {
         return myRepository.count();
     }
+
+    public StickerEntity getStickerEntityFromPath(String ruta){ return myRepository.getStickerEntityFromPath(ruta);}
 }

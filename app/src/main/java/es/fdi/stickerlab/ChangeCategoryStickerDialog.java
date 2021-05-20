@@ -17,6 +17,10 @@ import androidx.appcompat.app.AlertDialog;
 import java.io.File;
 import java.util.ArrayList;
 
+import es.fdi.stickerlab.Model.StickerEntity;
+
+import static es.fdi.stickerlab.MainActivity.myStickerViewModel;
+
 public class ChangeCategoryStickerDialog extends AlertDialog.Builder {
     View view;
     String categoria;
@@ -65,14 +69,32 @@ public class ChangeCategoryStickerDialog extends AlertDialog.Builder {
         this.setPositiveButton(R.string.move, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 int c = 0;
-                String nombre = "hola";
                 for (int i = 0; i < stickersSelection.length; i++) {
                     if (stickersSelection[i]) {
                         c++;
                         SaveStickerMemory saveStickerMemory = new SaveStickerMemory();
                         EditText nameText = view.findViewById(R.id.newCategoryName);
+                        //String nombre = "Hola";
                         //-------MeTER EL NOMBRE Y CAMBIAR BASE DE DATOS
+
+
+                        StickerEntity mySticker = myStickerViewModel.getStickerEntityFromPath(stickerList[i].getAbsolutePath());
+
+                        //Obtenemos todos los datos del sticker a mover
+                        long id = mySticker.getId();
+                        String nombre = mySticker.getNombre();
+                        String NewCategoria = categoria;
+                        String ruta = mySticker.getRuta();
+
+                        //Eliminamos el sticker de su categoría antigua
+                        myStickerViewModel.deleteByPath(ruta);
+
+                        //Creamos un nuevo Sticker en la nueva categoria y lo insertamos
+                        StickerEntity newSticker = new StickerEntity(id,nombre,NewCategoria,ruta);
+                        myStickerViewModel.insert(newSticker);
+
                         saveStickerMemory.SaveImage(getContext(), stickers[i], nombre, categoria);
+
                         stickerList[i].delete();
                         //selectImages = selectImages + arrPath[i] + "|";
                     }

@@ -51,6 +51,11 @@ public class StickerRepository {
         });
     }
 
+    //------------------------------HACER AQUÍ QUE SE EJECUTE EN OTRO HILO------------------------//
+    public static StickerEntity getStickerEntityFromPath(String ruta){
+        return myStickerDAO.getStickerEntityFromPath(ruta);
+    }
+
     public static int count(){
         return myStickerDAO.count();
     }
