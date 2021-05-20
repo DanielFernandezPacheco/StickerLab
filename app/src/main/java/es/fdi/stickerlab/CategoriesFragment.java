@@ -23,13 +23,11 @@ public class CategoriesFragment extends Fragment {
     public static final int NUM_CATEGORIES_TEST = 20;
     private RecyclerView recyclerView;
     private static CategoryListAdapter categoryListAdapter;
-    private static Context mContext;
     private static TextView noStickerInfo;
 
 
-    public CategoriesFragment(Context context) {
+    public CategoriesFragment() {
         super();
-        mContext = context;
     }
     
     @Override
@@ -75,9 +73,5 @@ public class CategoriesFragment extends Fragment {
 
     public static void hideNoStickerInfo(){
         noStickerInfo.setVisibility(View.INVISIBLE);
-    }
-
-    public static Context getAppContext() {
-        return mContext;
     }
 }

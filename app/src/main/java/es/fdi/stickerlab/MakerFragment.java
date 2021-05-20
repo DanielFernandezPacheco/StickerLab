@@ -36,13 +36,11 @@ import static android.app.Activity.RESULT_OK;
 public class MakerFragment  extends Fragment {
 
  private static final int PICK_IMAGE = 100;
-    private final Context mContext;
     Uri imageUri;
     ImageView imagen;
 
-    public MakerFragment(Context context) {
+    public MakerFragment() {
         super();
-        mContext = context;
     }
 
 
@@ -115,7 +113,7 @@ public class MakerFragment  extends Fragment {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getAppContext());
                 builder.setMessage(R.string.mensajemaker);
                 builder.setCancelable(false);
                 builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
