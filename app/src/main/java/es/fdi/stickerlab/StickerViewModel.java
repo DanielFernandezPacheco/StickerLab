@@ -1,10 +1,12 @@
 package es.fdi.stickerlab;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.io.File;
 import java.util.List;
 
 import es.fdi.stickerlab.Model.StickerEntity;
@@ -35,5 +37,5 @@ public class StickerViewModel extends AndroidViewModel {
         return myRepository.count();
     }
 
-    public StickerEntity getStickerEntityFromPath(String ruta){ return myRepository.getStickerEntityFromPath(ruta);}
+    public void getStickerEntityFromPath(File file, Bitmap sticker, String categoria){ myRepository.getStickerEntityFromPath(file, sticker, categoria);}
 }

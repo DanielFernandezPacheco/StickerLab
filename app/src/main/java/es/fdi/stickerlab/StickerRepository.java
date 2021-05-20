@@ -1,14 +1,21 @@
 package es.fdi.stickerlab;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
 
+import java.io.File;
 import java.util.List;
 
 import es.fdi.stickerlab.DAO.AppDatabase;
 import es.fdi.stickerlab.DAO.StickerDAO;
 import es.fdi.stickerlab.Model.StickerEntity;
+
+import static es.fdi.stickerlab.MainActivity.myStickerViewModel;
 
 //El repositorio proporciona una API para acceder cómodamente a la base de datos
 //con una capa de abstracción
@@ -52,8 +59,35 @@ public class StickerRepository {
     }
 
     //------------------------------HACER AQUÍ QUE SE EJECUTE EN OTRO HILO------------------------//
-    public static StickerEntity getStickerEntityFromPath(String ruta){
-        return myStickerDAO.getStickerEntityFromPath(ruta);
+    public static void getStickerEntityFromPath(File sticker, Bitmap bitmap, String categoria){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                SaveStickerMemory saveStickerMemory = new SaveStickerMemory();
+                StickerEntity mySticker = myStickerDAO.getStickerEntityFromPath(sticker.getAbsolutePath());
+                //Obtenemos todos los datos del sticker a mover
+                long id = mySticker.getId();
+                String nombre = mySticker.getNombre();
+                String NewCategoria = categoria;
+                String ruta = mySticker.getRuta();
+
+                //Eliminamos el sticker de su categoría antigua
+                myStickerViewModel.deleteByPath(ruta);
+
+                //Creamos un nuevo Sticker en la nueva categoria y lo insertamos
+                StickerEntity newSticker = new StickerEntity(id,nombre,NewCategoria,ruta);
+                myStickerViewModel.insert(newSticker);
+
+                Handler mHandler = new Handler(Looper.getMainLooper());
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveStickerMemory.SaveImage(MainActivity.getAppContext(), bitmap, nombre, categoria);
+                    }
+                });
+            }
+        });
+
     }
 
     public static int count(){

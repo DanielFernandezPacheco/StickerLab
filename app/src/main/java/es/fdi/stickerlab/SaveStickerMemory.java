@@ -44,21 +44,9 @@ public class SaveStickerMemory {
             fOut.flush();
             fOut.close();
             MakeSureFileWasCreatedThenMakeAvabile(file);
-            AbleToSave();
 
             //-------------------------GUARDAMOS EN LA BASE DE DATOS--------------------------//
 
-            //Creamos un id único para cada sticker, partiendo de la fecha+hora (siempre única)
-/*
-            //Pasamos el String por una serie de Splits y Uniones para que al salir solo queden los números
-            String [] fecha_1 = CurrentDateAndTime.split("_");
-            String unir_fecha_1 = fecha_1[0] + fecha_1[1];
-            String [] fecha_2 = unir_fecha_1.split("-");
-            String unir_fecha_2 = fecha_2[0]+fecha_2[1]+fecha_2[2]+fecha_2[3]+fecha_2[4];
-            String [] fecha_3 = unir_fecha_2.split("\u00AD");
-            String unir_fecha_3 = fecha_3[0]+fecha_3[1];
-*/
-            //Convertimos a long el id
             long id_converted = System.currentTimeMillis() / 1000L;
 
             StickerEntity sticker = new StickerEntity(id_converted,nombre, categoria, file_path + "/" + nombre + '_' +fecha + ".webp");

@@ -55,6 +55,7 @@ public class ChangeCategoryStickerDialog extends AlertDialog.Builder {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Titulo del dialog e icono
+        this.setIcon(R.drawable.ic_baseline_compare_arrows_24);
         this.setTitle("Mover Stickers");
 
         // establece el layout personalizado
@@ -73,30 +74,12 @@ public class ChangeCategoryStickerDialog extends AlertDialog.Builder {
                     if (stickersSelection[i]) {
                         c++;
                         SaveStickerMemory saveStickerMemory = new SaveStickerMemory();
-                        EditText nameText = view.findViewById(R.id.newCategoryName);
-                        //String nombre = "Hola";
                         //-------MeTER EL NOMBRE Y CAMBIAR BASE DE DATOS
 
 
-                        StickerEntity mySticker = myStickerViewModel.getStickerEntityFromPath(stickerList[i].getAbsolutePath());
-
-                        //Obtenemos todos los datos del sticker a mover
-                        long id = mySticker.getId();
-                        String nombre = mySticker.getNombre();
-                        String NewCategoria = categoria;
-                        String ruta = mySticker.getRuta();
-
-                        //Eliminamos el sticker de su categoría antigua
-                        myStickerViewModel.deleteByPath(ruta);
-
-                        //Creamos un nuevo Sticker en la nueva categoria y lo insertamos
-                        StickerEntity newSticker = new StickerEntity(id,nombre,NewCategoria,ruta);
-                        myStickerViewModel.insert(newSticker);
-
-                        saveStickerMemory.SaveImage(getContext(), stickers[i], nombre, categoria);
+                        myStickerViewModel.getStickerEntityFromPath(stickerList[i], stickers[i], categoria);
 
                         stickerList[i].delete();
-                        //selectImages = selectImages + arrPath[i] + "|";
                     }
                 }
 
