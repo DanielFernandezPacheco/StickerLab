@@ -63,6 +63,8 @@ public class CategoriesFragment extends Fragment {
         ArrayList<String> categories;
         String file_path = context.getExternalFilesDir(null).getAbsolutePath() + "/stickers/";
         File dir = new File(file_path);
+        if(!dir.exists())
+            dir.mkdir();
         categories = new ArrayList<String>(Arrays.asList(dir.list()));
 
         return categories;
