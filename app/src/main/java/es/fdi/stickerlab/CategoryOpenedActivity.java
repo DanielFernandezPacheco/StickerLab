@@ -189,7 +189,7 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                     Toast.makeText(getApplicationContext(),
                             "Selecciona algún sticker",
                             Toast.LENGTH_LONG).show();
-                } else {
+                } else if (cnt == 1){
                     finish();
                     ArrayList<String> categories = CategoriesFragment.getCategories(MainActivity.getAppContext());
                     new ChangeCategoryStickerDialog(MainActivity.getAppContext(), stickers, stickersSelection,stickerList, categories);
@@ -198,6 +198,10 @@ public class CategoryOpenedActivity extends AppCompatActivity implements View.On
                     // i.putExtra("title", categoryTitle);
                     //CategoriesFragment.getAppContext().startActivity(i);
 
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "Selecciona solo un sticker",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
