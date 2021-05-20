@@ -9,8 +9,10 @@
     <string name="stickers">Stickers</string>
     <string name="send">Enviar</string>
     <string name="upload">Buscar Imagen</string>
-    <string name="mensajemaker">CREA TUS PROPIOS STICKERS A PARTIR DE TUS FOTOS</string>
+    <string name="mensajemaker">Prueba a crear tus propios stickers a partir de tus propias imágenes</string>
     <string name="delete">Borrar</string>
+    <string name="move">Mover</string>
+    <string name="aceptar">Aceptar</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
