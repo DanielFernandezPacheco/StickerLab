@@ -51,8 +51,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
@@ -61,7 +60,7 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="10dp"
         app:contentPadding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/BtnLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar">
@@ -102,10 +101,47 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoryOpenedTitle">
 
+                <Button
+                    android:id="@+id/moveBtn"
+                    android:layout_width="174dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/button_background"
+                    android:text="@string/move"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/deleteBtn"
+                    android:layout_width="174dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="105dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/button_background"
+                    android:text="@string/delete"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/selectBtn"
+                    android:layout_width="174dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="29dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_toStartOf="@+id/deleteBtn"
+                    android:background="@drawable/button_background"
+                    android:text="@string/send"
+                    android:textColor="@android:color/white" />
+
                 <GridView
                     android:id="@+id/PhoneImageGrid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_above="@id/selectBtn"
                     android:layout_marginBottom="8dp"
                     android:columnWidth="90dp"
                     android:gravity="center"
@@ -113,55 +149,12 @@
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth"
                     android:verticalSpacing="10dp" />
-
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/BtnLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/deleteBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/delete_button_background"
-            android:text="@string/delete"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/selectBtn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/selectBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toStartOf="@+id/deleteBtn"
-            android:background="@drawable/button_background"
-            android:text="@string/send"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/deleteBtn" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
