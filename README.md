@@ -1,2 +1,3 @@
 # StickerLab
-Fecha de entrega: 20 de mayo
+
+Aplicación orientada al almacenamiento, categorización y creación de stickers de WhatsApp.
